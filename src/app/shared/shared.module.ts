@@ -3,13 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { CategoryPipe } from './pipes/category.pipe';
+import { DialogDetailsComponent } from './components/dialog-details/dialog-details.component';
+import { MapComponent } from './components/map/map.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 
 @NgModule({
   declarations: [
     ErrorDialogComponent,
-    CategoryPipe
+    CategoryPipe,
+    DialogDetailsComponent,
+    MapComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,82 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.fixed-toolbar {
+  position: fixed;
+  width: 100%;
+  top: 0px ;
+  z-index: 1000;
+  left: 68px;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: #333;
+  color: white;
+  padding-top: 64px;
+}
+
+.sidenav a {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.sidenav a:hover {
+  background-color: #555;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 16px;
+}
+
+.margin-10 {
+  padding-top: 50px;
+  padding: 15px;
+}
+
+.margin-30 {
+  padding-top: 16px;
+  margin-top: 80px;
+  height: 87vh;
+}
+
+.margin-top-bot{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.margin-top-bot-fist{
+    margin-top: 55px;
+    margin-bottom: 10px;
+}
+
+.color-bd{
+  background-color: #f5f5f5;
+}
+
+.color-menu{
+  text-align: center;
+  background: linear-gradient(to right, #2980b9, #10789e);
+  color: white;
+}
+
+a{
+  color: white;
+}
+
+.icon-width{
+  width: 37px;
+  height: 37px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.font-rout{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+}

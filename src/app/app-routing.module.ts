@@ -1,14 +1,40 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Data } from '@angular/router';
+import { AuthGuard } from './shared/guardian/auth.guard';
+import { AuthRedirectGuard } from './shared/guardian/auth-redirect.guard';
+import { CustomRoute } from './shared/types/custom-route.service';
 
 const routes: Routes = [
   {
-    path: '', pathMatch: 'full' ,redirectTo: 'courses'
+    path: 'courses',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['ADMIN', 'USER'],
+      name: 'Estabelecimento',
+    },
+    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule),
   },
   {
-    path: 'courses',
-    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule) 
-   }
+    path: 'admin',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['ADMIN'],
+      name: 'Administrador',
+    } as CustomRoute,
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'login',
+    canActivate: [AuthRedirectGuard],
+    data: {
+      expectedRoles: ['ADMIN'],
+      name: 'Login',
+    },
+    loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: '', pathMatch: 'full', redirectTo: 'login',
+  },
 ];
 
 @NgModule({

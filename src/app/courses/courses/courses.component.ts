@@ -4,6 +4,7 @@ import { CoursesService } from '../services/courses.service';
 import { Observable, catchError, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { DialogDetailsComponent } from 'src/app/shared/components/dialog-details/dialog-details.component';
 
 @Component({
   selector: 'app-courses',
@@ -11,23 +12,37 @@ import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/err
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
-  courses$: Observable<Course[]>;
-  displayedColumns = ['name', 'category'];
 
-  constructor(private courseService: CoursesService, public dialog: MatDialog) {
-    this.courses$ = this.courseService.list().pipe(
-      catchError((error) => {
-        this.onError('Erro ao carregar cursos.')
-        return of([]);
-      })
-    );
+  cardDataList: any[] = []
+    
+
+  constructor(
+     public dialog: MatDialog,
+     public coursesService: CoursesService
+    ) {
   }
 
-  onError(errorMsg: string) {
-    this.dialog.open(ErrorDialogComponent, {
-        data: errorMsg
+  banana: any;
+
+  openDialog(cardData?: any): void {
+    console.log(cardData)
+    const dialogRef = this.dialog.open(DialogDetailsComponent, {
+      width: '500px',
+      height: '300px',
+      data: {
+        value: cardData,
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.coursesService.list().
+    subscribe(data =>{
+      this.cardDataList = data;
+
+    })
+
+  }
 }
