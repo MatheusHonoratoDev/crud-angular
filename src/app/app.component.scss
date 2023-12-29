@@ -5,9 +5,20 @@
 .fixed-toolbar {
   position: fixed;
   width: 100%;
-  top: 0px ;
+  top: 0px;
   z-index: 1000;
   left: 68px;
+}
+
+.toolbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.margin-right{
+  margin-right: 70px;
+  font-size: 16px;
 }
 
 .sidenav {
@@ -38,45 +49,67 @@
   padding: 15px;
 }
 
-.margin-30 {
-  padding-top: 16px;
-  margin-top: 80px;
-  height: 87vh;
+.margin-top-bot {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.margin-top-bot{
-    margin-top: 10px;
-    margin-bottom: 10px;
+.margin-top-bot-fist {
+  margin-top: 55px;
+  margin-bottom: 10px;
 }
 
-.margin-top-bot-fist{
-    margin-top: 55px;
-    margin-bottom: 10px;
-}
-
-.color-bd{
+.color-bd {
   background-color: #f5f5f5;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
 }
 
-.color-menu{
+.color-menu {
   text-align: center;
   background: linear-gradient(to right, #2980b9, #10789e);
   color: white;
 }
 
-a{
+a {
   color: white;
 }
 
-.icon-width{
+.icon-width {
   width: 37px;
   height: 37px;
   cursor: pointer;
   padding: 0;
 }
 
-.font-rout{
-  font-family: 'Montserrat', sans-serif;
+.font-rout {
+  font-family: "Montserrat", sans-serif;
   font-size: 25px;
   font-weight: 400;
+}
+
+.round-icon {
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ccc; 
+}
+
+.ico{
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.logout{
+  cursor: pointer;
+}
+
+.margin-30-sidenav{
+  padding-top: 16px;
+  margin-top: 64px;
+  height: 89vh;
 }

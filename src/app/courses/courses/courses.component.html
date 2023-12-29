@@ -1,23 +1,63 @@
-<mat-card>
-  <mat-card-content>
-    <mat-toolbar color="primary">Agendas disponiveis</mat-toolbar>
-    <div class="container">
-      <div class="cardStyle" *ngFor="let cardData of cardDataList">
-      <mat-card class="cardContainer">
-        <div class="cardTitle">
-          <mat-card-title>{{ cardData.title }}</mat-card-title>
-          <img  class="logo" src="{{ cardData.icon }}">
-        </div>
+<div class="margin-30">
+  <div class="search-container">
 
-        <mat-card-subtitle>{{ cardData.type }}</mat-card-subtitle>
-        <mat-card-content>
-            <p> {{ cardData.description }} </p>
-        </mat-card-content>
-        <mat-card-actions class="gap-10">
-          <button class="button-width" mat-raised-button (click)="openDialog(cardData)">Detalhes</button>
-          <button class="button-width" mat-raised-button color="primary">Ver horarios</button>
-        </mat-card-actions>    
-      </mat-card>
+    <form [formGroup]="filter" class="form-container">
+  
+      <div class="div-container">
+  
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Favorite food</mat-label>
+          <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="name" calss="input-100"/>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="input" class="full-width">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type" class="input-100">
+            <mat-option *ngFor="let category of categorys" [value]="category.tipos">
+              {{ category.tipos }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+      </div>
+  
+      <div class="button-container">
+        <button class="button-width" mat-raised-button (click)="submite()">Filtrar</button>
+        <button class="button-width" mat-raised-button color="primary" (click)="clean()">Limpar</button>
+      </div>
+  
+    </form>
+  
+  </div>
+  
+  
+
+  <mat-card-content class="padding-0">
+    <div class="container gap-45">
+      <div class="cardStyle" *ngFor="let cardData of cardDataList">
+        <mat-card class="cardContainer">
+          <div class="cardTitle">
+            <mat-card-title>{{ cardData.customer }}</mat-card-title>
+            <img class="logo" src="{{ cardData.iconPerfil }}" />
+          </div>
+
+          <mat-card-subtitle>{{ cardData.type }}</mat-card-subtitle>
+          <mat-card-content>
+            <p>{{ cardData.description }}</p>
+          </mat-card-content>
+          <mat-card-actions class="gap-10">
+            <button
+              class="button-width"
+              mat-raised-button
+              (click)="openDialog(cardData)"
+            >
+              Detalhes
+            </button>
+            <button class="button-width" mat-raised-button color="primary">
+              Ver horarios
+            </button>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </div>
     <ng-template #loading>
@@ -26,4 +66,4 @@
       </div>
     </ng-template>
   </mat-card-content>
-</mat-card>
+</div>

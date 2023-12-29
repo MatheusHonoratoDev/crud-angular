@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../model/course';
 import { CoursesService } from '../services/courses.service';
-import { Observable, catchError, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { DialogDetailsComponent } from 'src/app/shared/components/dialog-details/dialog-details.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-courses',
@@ -12,20 +10,34 @@ import { DialogDetailsComponent } from 'src/app/shared/components/dialog-details
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
-
-  cardDataList: any[] = []
-    
+  cardDataList: any[] = [];
+  filter: FormGroup;
+  categorys: any;
 
   constructor(
-     public dialog: MatDialog,
-     public coursesService: CoursesService
-    ) {
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    public coursesService: CoursesService
+  ) {
+    this.filter = this.setInitialForm();
   }
 
-  banana: any;
+  ngOnInit(): void {
+    this.getAll();
+
+    this.coursesService.getCategorias().subscribe((data) => {
+      this.categorys = data;
+    });
+  }
+
+  setInitialForm() {
+    return this.formBuilder.group({
+      name: [''],
+      type: [''],
+    });
+  }
 
   openDialog(cardData?: any): void {
-    console.log(cardData)
     const dialogRef = this.dialog.open(DialogDetailsComponent, {
       width: '500px',
       height: '300px',
@@ -33,16 +45,25 @@ export class CoursesComponent implements OnInit {
         value: cardData,
       },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  getAll() {
+    this.coursesService.list().subscribe((data) => {
+      this.cardDataList = data;
     });
   }
 
-  ngOnInit(): void {
-    this.coursesService.list().
-    subscribe(data =>{
+  submite() {
+    const values = this.filter.value;
+
+    this.coursesService.filterByCategory(values).subscribe((data) => {
       this.cardDataList = data;
+    });
+  }
 
-    })
-
+  clean() {
+    this.filter = this.setInitialForm();
+    this.getAll();
   }
 }

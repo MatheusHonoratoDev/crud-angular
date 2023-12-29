@@ -41,25 +41,25 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const login = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
-  
+
       this.authService.authenticateUser(login, password).subscribe(
         (response) => {
           this.authService.setUserCredentials(login, password);
           this.authService.setAuthenticated(true);
-          this.authService.setUserRole(response.role); 
+          this.authService.setUserRole(response.role);
           this.coursesService.isAuthenticated = true;
-  
+          this.authService.setUserIdAndName(response.id ,response.customer, response.name, response.iconPerfil)
+
           this.router.navigate(['/courses']);
-  
-          console.log('Authentication successful. User role:', response.role);
+
+       
         },
         (error) => {
-          console.error('Authentication failed:', error);
         }
       );
     }
   }
-  
+
   togglePasswordVisibility(): void {
     this.hide = !this.hide;
   }

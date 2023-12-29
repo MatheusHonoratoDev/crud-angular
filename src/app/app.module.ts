@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { LoginModule } from './login/login.module';
 import { AppMaterialModule } from './shared/app-material/app-material.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AppMaterialModule } from './shared/app-material/app-material.module';
     AdminModule,
     HttpClientModule,
     LoginModule,
-    AppMaterialModule
+    AppMaterialModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -13,6 +13,14 @@ export class CoursesService {
   constructor(private httpClient: HttpClient) { }
 
   list(): Observable<any[]> {
-    return this.httpClient.get<any[]>('http://localhost:8800/getEstabelecimentos');
+    return this.httpClient.get<any[]>(`${this.API}/getcustomersByPage`);
+  }
+
+  filterByCategory(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.API}/filterCategory`, data);
+  }
+
+  getCategorias(): Observable<any[]> {
+    return this.httpClient.get<any[]>('http://localhost:8800/getCategorias');
   }
 }

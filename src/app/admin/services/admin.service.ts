@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,17 @@ export class AdminService {
     return this.httpClient.get<any[]>('http://localhost:8800/getCategorias');
   }
 
+  getCustumerById(id: number): Observable<any[]> {
+    const url = `http://localhost:8800/getcustomersById/${id}`;
+    return this.httpClient.get<any[]>(url);
+  }
+
   getRoles(): Observable<any[]> {
     return this.httpClient.get<any[]>('http://localhost:8800/getRoles');
+  }
+
+  editEstabelecimento(editCustomer: any): Observable<any> {
+    return this.httpClient.put<any>('http://localhost:8800/editCustomer', editCustomer);
   }
 
   deleteEstabelecimento(deletedCustomer: any): Observable<any> {

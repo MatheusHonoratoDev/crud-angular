@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CoursesService } from './courses/services/courses.service';
 import { AuthService } from './shared/auth.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,11 @@ import { AuthService } from './shared/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   authGuardPath: string = '';
   currentRouteName: string = '';
+  user: any;
+  private ngUnsubscribe = new Subject<void>();
+
   
   constructor(
     private router: Router,
@@ -26,17 +29,31 @@ export class AppComponent implements OnInit {
       }
     });
 
-    if (this.authService.isAuthenticated()) {
-      this.coursesService.isAuthenticated = true;
-    }
+    this.authService.userUpdated$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userData) => {
+        this.user = userData;
+      });
+    
   }
 
   ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.coursesService.isAuthenticated = true;
+    }
+    this.user = this.getUserData();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  
   }
 
   get isAuthenticated(): boolean {
     return this.coursesService.isAuthenticated;
   }
+
 
   private updateCurrentRouteName(): void {
     let route = this.activatedRoute;
@@ -54,6 +71,7 @@ export class AppComponent implements OnInit {
     this.coursesService.isAuthenticated = false;
     this.authService.setAuthenticated(false);    
     this.authService.clearUserCredentials();
+    this.authService.clearUserId();
 
     this.router.navigate(['/login']);
   }
@@ -65,5 +83,17 @@ export class AppComponent implements OnInit {
 
   shouldShowIcon(expectedRoles: string[]): boolean {
     return this.isRoleAllowed(...expectedRoles);
+  }
+
+  getUserData(){
+    const userData = localStorage.getItem('userId')
+    const UserData = localStorage.getItem('userId');
+
+    if (UserData !== null) {
+      return JSON.parse(UserData);
+    } else {
+      console.error('Dados do usuário não encontrados no localStorage.');
+      return null;
+    }
   }
 }

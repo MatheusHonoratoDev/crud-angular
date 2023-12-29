@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, Subject, catchError, map, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,7 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 export class AuthService {
   private validEmail: string = '';
   private validPassword: string = '';
+  private userId: any = '';
 
   private userEmail: string | undefined;
   private userPassword: string | undefined;
@@ -16,6 +17,8 @@ export class AuthService {
   private readonly STORAGE_KEY = 'userCredentials';
   private readonly AUTH_STORAGE_KEY = 'authenticatedUser';
   private userRole: string = '';
+  private userUpdatedSubject = new Subject<any>();
+  userUpdated$ = this.userUpdatedSubject.asObservable();
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.loadStoredCredentials();
@@ -30,6 +33,13 @@ export class AuthService {
   setAuthenticated(status: boolean): void {
     localStorage.setItem(this.AUTH_STORAGE_KEY, JSON.stringify(status));
   }
+
+  setUserIdAndName(id: String, customer: String, name: String, iconPerfil: String) {
+    const userData = { id, name, customer, iconPerfil };
+    localStorage.setItem('userId', JSON.stringify(userData));
+    this.userUpdatedSubject.next(userData);
+  }
+ 
 
   authenticateUser(login: string, password: string): Observable<any> {
     const url = `http://localhost:8800/getUserByLoginAndPassword`;
@@ -104,6 +114,12 @@ export class AuthService {
       this.userEmail = credentials.email;
       this.userPassword = credentials.password;
     }
+  }
+
+  clearUserId() {
+    this.userId = undefined;
+
+    localStorage.removeItem('userId');
   }
 
   clearUserCredentials() {

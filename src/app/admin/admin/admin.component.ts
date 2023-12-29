@@ -40,13 +40,13 @@ export class AdminComponent {
       type: ['', Validators.required],
       cnpj: ['', [Validators.required, Validators.minLength(14)]],
       celNumber: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(15)]],
-      cep: ['', Validators.required],
+      CEP: ['', Validators.required],
       address: ['', Validators.required],
       addressNumber: ['', Validators.required],
       state: ['', Validators.required],
       city: ['', Validators.required],
       role: ['', Validators.required],
-      status: 'ativo',
+      status: true,
       login: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
@@ -85,13 +85,13 @@ export class AdminComponent {
     const formCustomer = this.FormCustomer;
   
     if (formCustomer) {
-      const cepControl = formCustomer.get('cep');
+      const cepControl = formCustomer.get('CEP');
       
       if (cepControl) {
-        const cep = cepControl.value;
+        const CEP = cepControl.value;
   
-        if (cep && cep.length === 8) {
-          this.adminService.getAddressByCep(cep).subscribe(
+        if (CEP && CEP.length === 8) {
+          this.adminService.getAddressByCep(CEP).subscribe(
             (data) => {
               formCustomer.patchValue({
                 address: data.logradouro,

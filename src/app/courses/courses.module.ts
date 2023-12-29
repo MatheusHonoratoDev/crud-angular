@@ -6,6 +6,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CoursesComponent],
@@ -15,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     AppMaterialModule,
     MatCardModule,
     SharedModule,
+    ReactiveFormsModule
   ],
 })
 export class CoursesModule {}

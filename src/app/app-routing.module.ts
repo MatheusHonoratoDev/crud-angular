@@ -9,7 +9,7 @@ const routes: Routes = [
     path: 'courses',
     canActivate: [AuthGuard],
     data: {
-      expectedRoles: ['ADMIN', 'USER'],
+      expectedRoles: ['ADMIN', 'USER', 'CUSTOMER'],
       name: 'Estabelecimento',
     },
     loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule),
@@ -22,6 +22,15 @@ const routes: Routes = [
       name: 'Administrador',
     } as CustomRoute,
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'customer',
+    canActivate: [AuthGuard],
+    data: {
+      expectedRoles: ['CUSTOMER', 'ADMIN'],
+      name: 'Minha Empresa',
+    } as CustomRoute,
+    loadChildren: () => import('./customer/customer.module').then((m) => m.CustomerModule),
   },
   {
     path: 'login',

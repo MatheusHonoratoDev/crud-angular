@@ -1,4 +1,4 @@
-<mat-card class="margin-30">
+<div class="margin-30">
     <mat-card-content>
       <form [formGroup]="FormCustomer" class="container">
         <div class="inputLine">
@@ -35,7 +35,7 @@
   
           <mat-form-field appearance="outline" class="input">
             <mat-label>CEP</mat-label>
-            <input matInput formControlName="cep" (blur)="onCepBlur()"/>
+            <input matInput  formControlName="CEP" (blur)="onCepBlur()"/>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="input">
@@ -91,5 +91,5 @@
         </div>
       </form>
     </mat-card-content>
-  </mat-card>
+  </div>
   

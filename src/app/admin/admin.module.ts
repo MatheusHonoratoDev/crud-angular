@@ -8,12 +8,14 @@ import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomersRegisteredComponent } from './customers-registered/customers-registered.component';
+import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 
 
 @NgModule({
   declarations: [
     AdminComponent,
-    CustomersRegisteredComponent
+    CustomersRegisteredComponent,
+    EditCustomerComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,7 @@ import { CustomersRegisteredComponent } from './customers-registered/customers-r
     AppMaterialModule,
     MatCardModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class AdminModule { }

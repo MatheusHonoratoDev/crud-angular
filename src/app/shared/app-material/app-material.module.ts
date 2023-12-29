@@ -13,6 +13,12 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   exports: [
@@ -29,7 +35,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatSidenavModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    MatSlideToggleModule
+    
   ],
 })
 export class AppMaterialModule {}

@@ -1,11 +1,28 @@
-<mat-toolbar *ngIf="isAuthenticated" class="color-bd" class="fixed-toolbar">
-  <span>{{ currentRouteName }}</span>
+<mat-toolbar *ngIf="isAuthenticated" class="fixed-toolbar color-bd">
+  <div class="toolbar-content">
+    <span class="padding-left-10 ">{{ currentRouteName }}</span>
+    <div class="ico">
+      <img *ngIf="isAuthenticated && user" [src]="user.iconPerfil ? user.iconPerfil : '../../../assets/img/icone.webp'" alt="" class="round-icon" />
+      <span *ngIf="isAuthenticated && user" class="margin-right">{{
+        user.customer
+      }}</span>
+    </div>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav *ngIf="isAuthenticated" mode="side" opened class="margin-10 color-menu">
+  <mat-sidenav
+    *ngIf="isAuthenticated"
+    mode="side"
+    opened
+    class="margin-10 color-menu"
+  >
     <div>
-      <img src="../assets/img/126790.png" class="icon-width" routerLink="courses">
+      <img
+        src="../assets/img/126790.png"
+        class="icon-width"
+        routerLink="courses"
+      />
     </div>
     <div>
       <a
@@ -16,7 +33,7 @@
         <mat-icon class="margin-top-bot-fist">event</mat-icon>
       </a>
     </div>
-    <div>
+    <div *ngIf="shouldShowIcon(['ADMIN'])">
       <a
         routerLink="admin"
         matTooltip="Administração"
@@ -25,7 +42,7 @@
         <mat-icon class="margin-top-bot">settings</mat-icon>
       </a>
     </div>
-    <div>
+    <div *ngIf="shouldShowIcon(['ADMIN'])">
       <a
         routerLink="./cadastrados"
         matTooltip="Cadastrados"
@@ -35,18 +52,23 @@
       </a>
     </div>
     <div>
-      <a
-        (click)="logout()"
-        matTooltip="Logout"
-        matTooltipPosition="after"
-      >
-        <mat-icon class="margin-top-bot">exit_to_app</mat-icon>
+      <div *ngIf="shouldShowIcon(['ADMIN', 'CUSTOMER'])">
+        <a
+          routerLink="customer"
+          matTooltip="Clientes"
+          matTooltipPosition="after"
+        >
+          <mat-icon class="margin-top-bot">work</mat-icon>
+        </a>
+      </div>
+      <a (click)="logout()" matTooltip="Logout" matTooltipPosition="after">
+        <mat-icon class="margin-top-bot logout">exit_to_app</mat-icon>
       </a>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content
-    [ngClass]="{ 'margin-30': isAuthenticated && !isLoginPage() }"
+    [ngClass]="{ 'margin-30-sidenav': isAuthenticated && !isLoginPage() }"
   >
     <ng-container *ngIf="isAuthenticated"> </ng-container>
     <router-outlet></router-outlet>

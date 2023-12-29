@@ -4,11 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import {
   MatSnackBar,
-  MatSnackBarAction,
-  MatSnackBarActions,
-  MatSnackBarLabel,
-  MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { EditCustomerComponent } from '../edit-customer/edit-customer.component';
 @Component({
   selector: 'app-customers-registered',
   templateUrl: './customers-registered.component.html',
@@ -27,6 +24,7 @@ export class CustomersRegisteredComponent {
     'address',
     'addressNumber',
     'actionDelete',
+    'actionEdit'
   ];
   customers: any;
 
@@ -50,13 +48,13 @@ export class CustomersRegisteredComponent {
   deleteCustomer(a: number) {
     const data = {
       id: a,
-      status: 'inativo',
+      status: false,
     };
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '500px',
       data: {
-        name: 'empresa',
+        name: 'Deletar',
         text: 'Dessa forma vc estará excluindo e não poderá mais recuperar os dados da empresa',
       },
     });
@@ -77,6 +75,26 @@ export class CustomersRegisteredComponent {
       }
     });
   }
+
+  editCustomer(a: number) {
+    this.adminService.getCustumerById(a).subscribe((data) => {
+      let value: any[] = data;
+  
+      const dialogRef = this.dialog.open(EditCustomerComponent, {
+        width: '900px',
+        data: {
+          id: a,
+          data: value
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe(() => {
+        this.getAll();
+      });
+    });
+  }
+  
+  
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
