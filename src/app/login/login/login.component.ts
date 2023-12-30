@@ -48,14 +48,14 @@ export class LoginComponent implements OnInit {
           this.authService.setAuthenticated(true);
           this.authService.setUserRole(response.role);
           this.coursesService.isAuthenticated = true;
-          this.authService.setUserIdAndName(response.id ,response.customer, response.name, response.iconPerfil)
+          this.authService.setUserIdAndName(
+            response.id,
+            response.customer,
+            response.name
+          );
 
           this.router.navigate(['/courses']);
-
-       
         },
-        (error) => {
-        }
       );
     }
   }

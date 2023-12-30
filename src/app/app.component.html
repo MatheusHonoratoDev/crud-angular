@@ -2,7 +2,7 @@
   <div class="toolbar-content">
     <span class="padding-left-10 ">{{ currentRouteName }}</span>
     <div class="ico">
-      <img *ngIf="isAuthenticated && user" [src]="user.iconPerfil ? user.iconPerfil : '../../../assets/img/icone.webp'" alt="" class="round-icon" />
+      <img *ngIf="isAuthenticated && user" [src]="urlImage ? urlImage: '../../../assets/img/icone.webp'" alt="" class="round-icon" />
       <span *ngIf="isAuthenticated && user" class="margin-right">{{
         user.customer
       }}</span>

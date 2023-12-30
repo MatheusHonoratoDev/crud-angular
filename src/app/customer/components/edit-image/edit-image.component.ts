@@ -49,7 +49,8 @@ export class EditImageComponent {
     if (this.newImage) {
       this.customerService.editProfilePicture(data).subscribe((response) => {
         this.dialogRef.close();
-        this.openSnackBar('Estabelecimento Editado com sucesso', 'Fechar');
+        location.reload();
+        this.openSnackBar('imagem Editada com sucesso', 'Fechar');
       });
     }
   }

@@ -34,12 +34,13 @@ export class AuthService {
     localStorage.setItem(this.AUTH_STORAGE_KEY, JSON.stringify(status));
   }
 
-  setUserIdAndName(id: String, customer: String, name: String, iconPerfil: String) {
-    const userData = { id, name, customer, iconPerfil };
+  setUserIdAndName(id: String, customer: String, name: String) {
+    console.log('Método setUserIdAndName chamado com:', id, customer, name);
+    const userData = { id, name, customer };
+    console.log(userData)
     localStorage.setItem('userId', JSON.stringify(userData));
     this.userUpdatedSubject.next(userData);
   }
- 
 
   authenticateUser(login: string, password: string): Observable<any> {
     const url = `http://localhost:8800/getUserByLoginAndPassword`;
@@ -58,9 +59,9 @@ export class AuthService {
       }),
       map((response: any) => {
         this.setAuthenticated(true);
-        this.setUserRole(response.role);
+        this.setUserRole(response.role); 
         return response;
-      })
+    })
     );
   }
   
