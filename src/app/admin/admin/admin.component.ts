@@ -46,7 +46,7 @@ export class AdminComponent {
       state: ['', Validators.required],
       city: ['', Validators.required],
       role: ['', Validators.required],
-      status: true,
+      status: false,
       login: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });

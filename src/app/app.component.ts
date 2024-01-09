@@ -4,6 +4,7 @@ import { CoursesService } from './courses/services/courses.service';
 import { AuthService } from './shared/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CustomerService } from './customer/services/customer.service';
+import { LoaderService } from './shared/services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private coursesService: CoursesService,
     private authService: AuthService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    public loaderService: LoaderService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -104,4 +106,6 @@ export class AppComponent implements OnInit {
       return null;
     }
   }
+
+  
 }

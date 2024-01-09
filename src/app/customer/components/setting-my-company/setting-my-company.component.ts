@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
+import { Base64Service } from 'src/app/shared/services/base64.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-setting-my-company',
@@ -21,13 +23,16 @@ export class SettingMyCompanyComponent implements OnInit {
   getId: any;
   jsonString: any;
   desable = true;
-  defaultImages: string[] = Array(9).fill('grey-image-url'); 
+  defaultImages: string[] = Array(4).fill('grey-image-url');
+  fotos: any[] = [];
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private base64: Base64Service,
+    private cdr: ChangeDetectorRef
   ) {
     this.jsonString = localStorage.getItem('userId');
     this.getId = JSON.parse(this.jsonString);
@@ -35,17 +40,29 @@ export class SettingMyCompanyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.customerService.getCategorias().subscribe((data) => {
-      this.categorys = data;
-    });
-
-    this.customerService.getRoles().subscribe((data) => {
-      this.roles = data;
-    });
-
-    this.customerService.getCustumerById(this.getId.id).subscribe((data) => {
-      this.formEditValues = data;
+    forkJoin([
+      this.customerService.getCategorias(),
+      this.customerService.getRoles(),
+      this.customerService.getCustumerById(this.getId.id),
+      this.customerService.getFotos(this.getId.id),
+    ]).subscribe(([categorias, roles, customerData, fotosResponse]) => {
+      this.categorys = categorias;
+      this.roles = roles;
+      this.formEditValues = customerData;
       this.editForm();
+      const fotosArray = fotosResponse as any[];
+
+      if (fotosArray && Array.isArray(fotosArray)) {
+        fotosArray.forEach((item: any) => {
+          const file = this.base64.convertBase64ToFile(item);
+          if (file) {
+            this.selectedFiles.push(file);
+          }
+        });
+      } else {
+        console.error('Resposta de fotos inválida:', fotosResponse);
+      }
+      console.log('Fotos array:', fotosArray);
     });
   }
 
@@ -193,19 +210,18 @@ export class SettingMyCompanyComponent implements OnInit {
     this.hide = !this.hide;
   }
 
-  
   onFileSelected(event: any): void {
     const files: FileList = event.target.files;
 
-    if (this.selectedFiles.length + files.length <= 9) {
+    if (this.selectedFiles.length + files.length <= 4) {
       this.selectedFiles = [...this.selectedFiles, ...Array.from(files)];
     } else {
-      console.warn('Número máximo de imagens atingido (9).');
+      console.warn('Número máximo de imagens atingido (4).');
     }
   }
 
   onAddImage(): void {
-    if (this.selectedFiles.length < 9) {
+    if (this.selectedFiles.length < 4) {
       const inputElement = document.createElement('input');
       inputElement.type = 'file';
       inputElement.multiple = true;
@@ -214,15 +230,39 @@ export class SettingMyCompanyComponent implements OnInit {
       });
       inputElement.click();
     } else {
-      this.openSnackBar('Número máximo de imagens atingido (9).', 'Fechar');
+      this.openSnackBar('Número máximo de imagens atingido (4).', 'Fechar');
     }
   }
 
   onUpload(): void {
     if (this.selectedFiles.length > 0) {
-      console.log('Arquivos enviados:', this.selectedFiles);
-    } else {
-      console.warn('Nenhum arquivo selecionado para upload.');
+      const base64Values: string[] = [];
+      const processFiles = async () => {
+        for (const file of this.selectedFiles) {
+          const base64Value = await this.base64.fileToBase64(file);
+          if (typeof base64Value === 'string') {
+            base64Values.push(base64Value);
+          }
+        }
+        if (base64Values.length > 0) {
+          const data = {
+            id: this.getId.id,
+            fotos: base64Values,
+          };
+          this.customerService.addphotos(data).subscribe(
+            (response) => {
+              this.openSnackBar('Deu certo com sucesso', 'Fechar');
+            },
+            (error) => {
+              this.openSnackBar(
+                'Erro ao editar estabelecimento, verifique se todos os dados devem ser preenchidos',
+                'Fechar'
+              );
+            }
+          );
+        }
+      };
+      processFiles();
     }
   }
 
@@ -232,6 +272,20 @@ export class SettingMyCompanyComponent implements OnInit {
 
   removeFile(index: number): void {
     this.selectedFiles.splice(index, 1);
+    const values = {
+      index: index,
+      id: this.getId.id,
+    };
+    this.customerService.deleteImage(values).subscribe(
+      (response) => {
+        this.openSnackBar('Apagou', 'Fechar');
+      },
+      (error) => {
+        this.openSnackBar(
+          'Pagou não',
+          'Fechar'
+        );
+      }
+    );
   }
 }
-

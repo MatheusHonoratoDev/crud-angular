@@ -6,9 +6,11 @@ import { CategoryPipe } from './pipes/category.pipe';
 import { DialogDetailsComponent } from './components/dialog-details/dialog-details.component';
 import { MapComponent } from './components/map/map.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
-
-
+import { GoogleMapsComponent } from './components/google-maps/google-maps.component';
+import { NgxStarsModule } from 'ngx-stars';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -17,17 +19,21 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     DialogDetailsComponent,
     MapComponent,
     ConfirmDialogComponent,
-    SpinnerComponent,
-    SpinnerComponent
+    GoogleMapsComponent,
+    
+    
   ],
   imports: [
     CommonModule,
-    AppMaterialModule
+    AppMaterialModule,
+    NgxStarsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     ErrorDialogComponent,
     CategoryPipe,
-    SpinnerComponent
   ]
 
 })

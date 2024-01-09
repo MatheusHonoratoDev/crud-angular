@@ -73,7 +73,20 @@ export class CustomerService {
     return this.httpClient.get<any[]>(url);
   }
 
+  getFotos(id: number): Observable<any[]>{
+    const url = `http://localhost:8800/getFotos/${id}`;
+    return this.httpClient.get<any[]>(url);
+  }
+
   editProfilePicture(editProfilePicture: any): Observable<any> {
     return this.httpClient.put<any>('http://localhost:8800/editProfilePicture', editProfilePicture);
+  }
+  
+  addphotos(fotos: any): Observable<any>{
+    return this.httpClient.put<any>('http://localhost:8800/editPhotos', fotos);
+  }
+
+  deleteImage(value: any): Observable<any[]>{
+    return this.httpClient.put<any[]>(`http://localhost:8800/deleteImage`, value)
   }
 }

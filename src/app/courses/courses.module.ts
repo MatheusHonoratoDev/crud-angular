@@ -7,8 +7,11 @@ import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [CoursesComponent],
   imports: [
     CommonModule,
@@ -16,7 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppMaterialModule,
     MatCardModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GoogleMapsModule
   ],
 })
 export class CoursesModule {}

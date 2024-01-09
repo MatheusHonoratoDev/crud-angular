@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +32,7 @@ export class AdminService {
   }
 
   editEstabelecimento(editCustomer: any): Observable<any> {
-    return this.httpClient.put<any>('http://localhost:8800/editCustomer', editCustomer);
+    return this.httpClient.put<any>('http://localhost:8800/editCustomerViewAdm', editCustomer);
   }
 
   deleteEstabelecimento(deletedCustomer: any): Observable<any> {

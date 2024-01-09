@@ -3,6 +3,8 @@ import { CoursesService } from '../services/courses.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDetailsComponent } from 'src/app/shared/components/dialog-details/dialog-details.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { Base64Service } from 'src/app/shared/services/base64.service';
 
 @Component({
   selector: 'app-courses',
@@ -13,11 +15,13 @@ export class CoursesComponent implements OnInit {
   cardDataList: any[] = [];
   filter: FormGroup;
   categorys: any;
+  id: any;
+  fotos: any;
 
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public coursesService: CoursesService
+    public coursesService: CoursesService,
   ) {
     this.filter = this.setInitialForm();
   }
@@ -38,9 +42,14 @@ export class CoursesComponent implements OnInit {
   }
 
   openDialog(cardData?: any): void {
+    this.id = cardData.id;
+
     const dialogRef = this.dialog.open(DialogDetailsComponent, {
-      width: '500px',
-      height: '300px',
+      width: '800px',
+      height: '100%',
+      position: {
+        right: '0', 
+      },
       data: {
         value: cardData,
       },

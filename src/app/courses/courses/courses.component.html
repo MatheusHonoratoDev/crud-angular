@@ -6,8 +6,8 @@
       <div class="div-container">
   
         <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Favorite food</mat-label>
-          <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="name" calss="input-100"/>
+          <mat-label>Nome da empresa</mat-label>
+          <input matInput placeholder="Ex. Barbearia mario e maria"  formControlName="name" calss="input-100"/>
         </mat-form-field>
   
         <mat-form-field appearance="outline" class="input" class="full-width">
@@ -38,7 +38,7 @@
         <mat-card class="cardContainer">
           <div class="cardTitle">
             <mat-card-title>{{ cardData.customer }}</mat-card-title>
-            <img class="logo" src="{{ cardData.iconPerfil }}" />
+            <img class="logo" src="{{ cardData.iconPerfil || '../../../../assets/img/vitrine-barraca-default.jpg' }}" />
           </div>
 
           <mat-card-subtitle>{{ cardData.type }}</mat-card-subtitle>

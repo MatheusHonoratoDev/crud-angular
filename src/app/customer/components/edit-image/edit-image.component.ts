@@ -24,9 +24,9 @@ export class EditImageComponent {
   ) {
     this.url = data;
 
+    console.log('a', this.url.img)
     this.newImage = this.base64String.convertBase64ToFile(this.url.img);
 
-    console.log('a', this.newImage)
   }
 
   onFileSelected(event: any) {
